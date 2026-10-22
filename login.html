@@ -102,9 +102,7 @@
       } catch (error) {
         console.error(error);
         message.textContent =
-          error.code === "auth/invalid-credential"
-            ? "Email or password is incorrect."
-            : "Sign-in failed. Check Firebase Authentication settings.";
+  "Error: " + error.code + " — " + error.message;
       } finally {
         button.disabled = false;
       }
