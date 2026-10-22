@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | ABETHIE WATER MANAGEMENT</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #0b1f3a;
+      color: #fff;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 410px;
+      padding: 30px;
+      border-radius: 14px;
+      background: #fff;
+      color: #172b45;
+    }
+    h1 { font-size: 24px; text-align: center; }
+    p { text-align: center; color: #526176; }
+    label { display: block; margin: 16px 0 7px; }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccd3dd;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 13px;
+      border: 0;
+      border-radius: 7px;
+      background: #d4af37;
+      color: #0b1f3a;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #message { margin-top: 16px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main class="login-card">
+    <h1>ABETHIE WATER MANAGEMENT</h1>
+    <p>Administrator Sign In</p>
+
+    <form id="loginForm">
+      <label for="email">Email address</label>
+      <input id="email" type="email" required autocomplete="username">
+
+      <label for="password">Password</label>
+      <input id="password" type="password" required
+        autocomplete="current-password">
+
+      <button id="loginButton" type="submit">Sign In</button>
+      <p id="message" role="status"></p>
+    </form>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword
+    } from
+      "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { firebaseConfig } from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "Signing in...";
+      button.disabled = true;
+
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          document.getElementById("email").value.trim(),
+          document.getElementById("password").value
+        );
+
+        message.textContent =
+          "Login successful. Authentication is working.";
+      } catch (error) {
+        console.error(error);
+        message.textContent =
+          error.code === "auth/invalid-credential"
+            ? "Email or password is incorrect."
+            : "Sign-in failed. Check Firebase Authentication settings.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
