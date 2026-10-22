@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1f3a">
+  <meta name="description" content="ABETHIE Water Management - Smart water usage and public water point management.">
+  <title>ABETHIE Water Management</title>
+
+  <style>
+    :root {
+      --navy: #0b1f3a;
+      --gold: #d4af37;
+      --light: #f4f7fb;
+      --white: #ffffff;
+      --text: #243247;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 22px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .brand span {
+      color: var(--gold);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 75px 20px;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      margin: 0 0 18px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+      color: #e0e7f0;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 6px;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--white);
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 3px 14px rgba(11, 31, 58, 0.07);
+    }
+
+    .card h3 {
+      color: var(--navy);
+      margin-top: 0;
+    }
+
+    .card p {
+      line-height: 1.6;
+      color: #596779;
+    }
+
+    footer {
+      margin-top: 55px;
+      padding: 25px 20px;
+      text-align: center;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">ABETHIE <span>WATER</span></div>
+    <div>Smart Water Management System</div>
+  </header>
+
+  <section class="hero">
+    <h1>Smart Management of <span>Water</span></h1>
+    <p>
+      A digital platform designed to manage public water points,
+      customers, water consumption, quotas, billing and payments.
+    </p>
+    <a class="button" href="#services">Explore Our System</a>
+  </section>
+
+  <main id="services">
+    <div class="section-title">
+      <h2>Our Management Modules</h2>
+      <p>One platform for managing water services.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <h3>Customers</h3>
+        <p>Manage customer information and water access accounts.</p>
+      </article>
+
+      <article class="card">
+        <h3>Public Water Points</h3>
+        <p>Organize water points, meters and connected devices.</p>
+      </article>
+
+      <article class="card">
+        <h3>Water Usage & Quotas</h3>
+        <p>Plan customer water allowances and track consumption.</p>
+      </article>
+
+      <article class="card">
+        <h3>Billing & Payments</h3>
+        <p>Prepare water bills and record customer payments.</p>
+      </article>
+
+      <article class="card">
+        <h3>Offline Synchronization</h3>
+        <p>Prepare for local readings that synchronize when internet returns.</p>
+      </article>
+
+      <article class="card">
+        <h3>Reports</h3>
+        <p>Review water usage and management reports.</p>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 ABETHIE WATER MANAGEMENT. All rights reserved.
+  </footer>
+</body>
+</html>
