@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1f3a">
   <meta name="description" content="ABETHIE Water Management - Smart water usage and public water point management.">
-  <title>ABETHIE Water Management</title>
+
+  <title>ABETHIE Water Management | Dashboard</title>
 
   <style>
     :root {
@@ -15,6 +17,8 @@
       --light: #f4f7fb;
       --white: #ffffff;
       --text: #243247;
+      --muted: #718096;
+      --border: #e5eaf1;
     }
 
     * {
@@ -31,16 +35,16 @@
     header {
       background: var(--navy);
       color: var(--white);
-      padding: 22px 7%;
+      padding: 20px 7%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 15px;
     }
 
     .brand {
-      font-size: 21px;
+      font-size: 22px;
       font-weight: bold;
     }
 
@@ -48,53 +52,96 @@
       color: var(--gold);
     }
 
-    .hero {
-      text-align: center;
-      padding: 75px 20px;
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .user-email {
+      font-size: 13px;
+      color: #e0e7f0;
+      overflow-wrap: anywhere;
+    }
+
+    .logout-btn {
+      border: none;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .welcome {
       background: var(--navy);
       color: var(--white);
+      padding: 45px 7%;
     }
 
-    .hero h1 {
-      font-size: clamp(30px, 5vw, 48px);
-      margin: 0 0 18px;
+    .welcome h1 {
+      font-size: clamp(27px, 4vw, 40px);
+      margin: 0 0 12px;
     }
 
-    .hero h1 span {
+    .welcome h1 span {
       color: var(--gold);
     }
 
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      line-height: 1.7;
+    .welcome p {
       color: #e0e7f0;
-    }
-
-    .button {
-      display: inline-block;
-      padding: 13px 22px;
-      border-radius: 6px;
-      background: var(--gold);
-      color: var(--navy);
-      font-weight: bold;
-      text-decoration: none;
+      line-height: 1.7;
+      margin: 0;
     }
 
     main {
-      max-width: 1100px;
-      margin: 40px auto;
+      max-width: 1200px;
+      margin: 35px auto;
       padding: 0 20px;
     }
 
     .section-title {
-      text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .summary-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 22px;
+      border-radius: 10px;
+    }
+
+    .summary-card h3 {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    .summary-card strong {
+      font-size: 25px;
+      color: var(--navy);
     }
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 20px;
     }
 
@@ -102,7 +149,8 @@
       background: var(--white);
       padding: 24px;
       border-radius: 10px;
-      box-shadow: 0 3px 14px rgba(11, 31, 58, 0.07);
+      border: 1px solid var(--border);
+      box-shadow: 0 3px 14px rgba(11, 31, 58, 0.05);
     }
 
     .card h3 {
@@ -115,6 +163,16 @@
       color: #596779;
     }
 
+    .module-status {
+      display: inline-block;
+      padding: 6px 10px;
+      background: #fff4d6;
+      color: #765900;
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
     footer {
       margin-top: 55px;
       padding: 25px 20px;
@@ -123,88 +181,248 @@
       color: var(--white);
       font-size: 14px;
     }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 18px 5%;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .welcome {
+        padding: 35px 5%;
+      }
+    }
   </style>
 </head>
 
-<body>
+<body style="visibility: hidden;">
+
   <header>
-    <div class="brand">ABETHIE <span>WATER</span></div>
-    <div>Smart Water Management System</div>
-  </header>
-
-  <section class="hero">
-    <h1>Smart Management of <span>Water</span></h1>
-    <p>
-      A digital platform designed to manage public water points,
-      customers, water consumption, quotas, billing and payments.
-    </p>
-    <a class="button" href="#services">Explore Our System</a>
-  </section>
-
-  <main id="services">
-    <div class="section-title">
-      <h2>Our Management Modules</h2>
-      <p>One platform for managing water services.</p>
+    <div class="brand">
+      ABETHIE <span>WATER</span>
     </div>
 
-    <div class="cards">
+    <div class="header-right">
+      <span class="user-email" id="userEmail">Loading...</span>
+      <button class="logout-btn" id="logoutBtn">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <section class="welcome">
+    <h1>Welcome to <span>ABETHIE</span></h1>
+    <p>
+      Smart Water Management System.
+      Manage customers, public water points, water consumption,
+      quotas, billing and payments from one platform.
+    </p>
+  </section>
+
+  <main>
+
+    <section class="section-title">
+      <h2>Management Overview</h2>
+      <p>Overview of your water management operations.</p>
+    </section>
+
+    <section class="summary-grid">
+
+      <article class="summary-card">
+        <h3>Total Customers</h3>
+        <strong>--</strong>
+      </article>
+
+      <article class="summary-card">
+        <h3>Water Points</h3>
+        <strong>--</strong>
+      </article>
+
+      <article class="summary-card">
+        <h3>Total Water Usage</h3>
+        <strong>-- L</strong>
+      </article>
+
+      <article class="summary-card">
+        <h3>Total Payments</h3>
+        <strong>-- RWF</strong>
+      </article>
+
+    </section>
+
+    <section class="section-title">
+      <h2>Management Modules</h2>
+      <p>Choose a module to manage your water services.</p>
+    </section>
+
+    <section class="cards">
+
       <article class="card">
         <h3>Customers</h3>
-        <p>Manage customer information and water access accounts.</p>
+        <p>
+          Register customers, manage their information
+          and monitor their water access accounts.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
 
       <article class="card">
         <h3>Public Water Points</h3>
-        <p>Organize water points, meters and connected devices.</p>
+        <p>
+          Register and manage public water points,
+          meters and connected devices.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
 
       <article class="card">
-        <h3>Water Usage & Quotas</h3>
-        <p>Plan customer water allowances and track consumption.</p>
+        <h3>Water Usage</h3>
+        <p>
+          Record water consumption and monitor
+          the number of litres used.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
 
       <article class="card">
-        <h3>Billing & Payments</h3>
-        <p>Prepare water bills and record customer payments.</p>
+        <h3>Water Quotas</h3>
+        <p>
+          Set customer water allowances and
+          monitor remaining litres.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
 
       <article class="card">
-        <h3>Offline Synchronization</h3>
-        <p>Prepare for local readings that synchronize when internet returns.</p>
+        <h3>Billing</h3>
+        <p>
+          Calculate water charges and prepare
+          customer bills.
+        </p>
+        <span class="module-status">To be implemented</span>
+      </article>
+
+      <article class="card">
+        <h3>Payments</h3>
+        <p>
+          Record payments, monitor outstanding
+          balances and issue receipts.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
 
       <article class="card">
         <h3>Reports</h3>
-        <p>Review water usage and management reports.</p>
+        <p>
+          Review customer activity, water usage
+          and financial reports.
+        </p>
+        <span class="module-status">To be implemented</span>
       </article>
-    </div>
+
+      <article class="card">
+        <h3>Offline Synchronization</h3>
+        <p>
+          Prepare for offline water readings and
+          synchronization when internet returns.
+        </p>
+        <span class="module-status">To be implemented</span>
+      </article>
+
+      <article class="card">
+        <h3>Users & Roles</h3>
+        <p>
+          Manage administrators, water agents
+          and their access permissions.
+        </p>
+        <span class="module-status">To be implemented</span>
+      </article>
+
+      <article class="card">
+        <h3>System Settings</h3>
+        <p>
+          Configure water prices, system preferences
+          and management settings.
+        </p>
+        <span class="module-status">To be implemented</span>
+      </article>
+
+    </section>
+
   </main>
 
   <footer>
-    &copy; 2026 ABETHIE WATER MANAGEMENT. All rights reserved.
+    &copy; 2026 ABETHIE WATER MANAGEMENT.
+    All rights reserved.
   </footer>
+
   <script type="module">
-  import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
-  import { getAnalytics } from
-    "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 
-  import { firebaseConfig } from "./firebase-config.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from
+      "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-  const app = initializeApp(firebaseConfig);
+    import { getAnalytics } from
+      "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 
-  if (typeof window !== "undefined") {
-    window.firebaseApp = app;
-  }
+    import { firebaseConfig } from "./firebase-config.js";
 
-  try {
-    getAnalytics(app);
-  } catch (error) {
-    console.warn("Firebase Analytics ntiratangira:", error);
-  }
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  console.log("ABETHIE Firebase yatangiye.");
-</script>
+    try {
+      getAnalytics(app);
+    } catch (error) {
+      console.warn("Firebase Analytics:", error);
+    }
+
+    const userEmail = document.getElementById("userEmail");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    onAuthStateChanged(auth, (user) => {
+
+      if (user) {
+        userEmail.textContent = user.email || "Authenticated user";
+
+        document.body.style.visibility = "visible";
+
+        console.log("ABETHIE: User authenticated.");
+
+      } else {
+        window.location.replace("./login.html");
+      }
+
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+
+      logoutBtn.disabled = true;
+
+      try {
+        await signOut(auth);
+        window.location.replace("./login.html");
+
+      } catch (error) {
+        console.error("Logout error:", error);
+        alert("Logout failed. Please try again.");
+        logoutBtn.disabled = false;
+      }
+
+    });
+
+    console.log("ABETHIE Firebase initialized.");
+
+  </script>
+
 </body>
 </html>
