@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1f3a">
+<title>Customer Login | ABETHIE</title>
+
+<style>
+* {box-sizing:border-box}
+body {
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:#f1f5f9;
+  font-family:Arial,sans-serif;
+}
+.container {
+  width:100%;
+  max-width:420px;
+  padding:32px;
+  background:white;
+  border-radius:16px;
+  box-shadow:0 8px 30px #0001;
+}
+h1{text-align:center;color:#0b1f3a}
+p{text-align:center;color:#64748b}
+label{display:block;margin:18px 0 7px;font-weight:bold}
+input {
+  width:100%;
+  padding:13px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  font-size:15px;
+}
+button {
+  width:100%;
+  padding:14px;
+  margin-top:22px;
+  background:#2e8b34;
+  color:white;
+  border:0;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:disabled{opacity:.6}
+#message{text-align:center;margin-top:18px;line-height:1.5}
+.success{color:#16803c}
+.error{color:#dc2626}
+a{color:#2e8b34;text-decoration:none;font-weight:bold}
+.footer{text-align:center;margin-top:20px}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>ABETHIE WATER</h1>
+<p>Customer Account Login</p>
+
+<form id="loginForm">
+
+<label>Email Address</label>
+<input type="email" id="email" required
+placeholder="Enter your email">
+
+<label>Password</label>
+<input type="password" id="password" required
+placeholder="Enter your password">
+
+<button id="loginBtn" type="submit">Sign In</button>
+
+</form>
+
+<div id="message"></div>
+
+<div class="footer">
+Don't have an account?
+<a href="./register.html">Register</a>
+</div>
+
+</div>
+
+<script type="module">
+
+import { firebaseConfig }
+from "./firebase-config.js";
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const button = document.getElementById("loginBtn");
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  button.disabled = true;
+  button.textContent = "Signing in...";
+  message.textContent = "";
+
+  let user = null;
+
+  try {
+
+    const result = await signInWithEmailAndPassword(
+      auth, email, password
+    );
+
+    user = result.user;
+
+    const profile = await getDoc(
+      doc(db, "users", user.uid)
+    );
+
+    if (!profile.exists() ||
+        profile.data().role !== "customer") {
+
+      await signOut(auth);
+      user = null;
+
+      throw new Error("CUSTOMER_PROFILE_NOT_FOUND");
+    }
+
+    message.className = "success";
+    message.textContent =
+      "Login successful! Welcome to ABETHIE, " +
+      profile.data().fullName + ".";
+
+    button.textContent = "Signed In";
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (user) {
+      await signOut(auth).catch(console.error);
+    }
+
+    message.className = "error";
+
+    const errors = {
+      "auth/invalid-credential":
+        "Incorrect email or password.",
+
+      "auth/too-many-requests":
+        "Too many attempts. Try again later.",
+
+      "auth/network-request-failed":
+        "Network error. Check your connection.",
+
+      "CUSTOMER_PROFILE_NOT_FOUND":
+        "Customer profile not found. Contact administrator."
+    };
+
+    message.textContent =
+      errors[error.code] ||
+      "Login failed. Please try again.";
+
+    button.disabled = false;
+    button.textContent = "Sign In";
+
+  }
+
+});
+
+</script>
+</body>
+</html>
