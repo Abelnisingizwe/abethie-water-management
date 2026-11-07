@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,9 +20,7 @@
       --border: #e5eaf1;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -46,20 +45,30 @@
       font-weight: bold;
     }
 
-    .brand span {
+    .brand span, .welcome h1 span {
       color: var(--gold);
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .user-email {
       font-size: 13px;
       color: #e0e7f0;
       overflow-wrap: anywhere;
+    }
+
+    .language-select {
+      padding: 10px;
+      border: 1px solid #52647b;
+      border-radius: 6px;
+      background: white;
+      color: var(--navy);
+      cursor: pointer;
     }
 
     .logout-btn {
@@ -72,6 +81,11 @@
       cursor: pointer;
     }
 
+    .logout-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .welcome {
       background: var(--navy);
       color: var(--white);
@@ -81,10 +95,6 @@
     .welcome h1 {
       font-size: clamp(27px, 4vw, 40px);
       margin: 0 0 12px;
-    }
-
-    .welcome h1 span {
-      color: var(--gold);
     }
 
     .welcome p {
@@ -205,16 +215,28 @@
     </div>
 
     <div class="header-right">
+
+      <select id="languageSelect" class="language-select"
+              aria-label="Choose language">
+        <option value="en">English</option>
+        <option value="rw">Kinyarwanda</option>
+      </select>
+
       <span class="user-email" id="userEmail">Loading...</span>
+
       <button class="logout-btn" id="logoutBtn">
         Logout
       </button>
+
     </div>
   </header>
 
   <section class="welcome">
-    <h1>Welcome to <span>ABETHIE</span></h1>
-    <p>
+    <h1 id="welcomeTitle">
+      Welcome to <span>ABETHIE</span>
+    </h1>
+
+    <p id="welcomeDescription">
       Smart Water Management System.
       Manage customers, public water points, water consumption,
       quotas, billing and payments from one platform.
@@ -224,136 +246,160 @@
   <main>
 
     <section class="section-title">
-      <h2>Management Overview</h2>
-      <p>Overview of your water management operations.</p>
+      <h2 id="overviewTitle">Management Overview</h2>
+      <p id="overviewDescription">
+        Overview of your water management operations.
+      </p>
     </section>
 
     <section class="summary-grid">
 
       <article class="summary-card">
-        <h3>Total Customers</h3>
+        <h3 id="totalCustomers">Total Customers</h3>
         <strong>--</strong>
       </article>
 
       <article class="summary-card">
-        <h3>Water Points</h3>
+        <h3 id="waterPoints">Water Points</h3>
         <strong>--</strong>
       </article>
 
       <article class="summary-card">
-        <h3>Total Water Usage</h3>
+        <h3 id="totalUsage">Total Water Usage</h3>
         <strong>-- L</strong>
       </article>
 
       <article class="summary-card">
-        <h3>Total Payments</h3>
+        <h3 id="totalPayments">Total Payments</h3>
         <strong>-- RWF</strong>
       </article>
 
     </section>
 
     <section class="section-title">
-      <h2>Management Modules</h2>
-      <p>Choose a module to manage your water services.</p>
+      <h2 id="modulesTitle">Management Modules</h2>
+      <p id="modulesDescription">
+        Choose a module to manage your water services.
+      </p>
     </section>
 
     <section class="cards">
 
       <article class="card">
-        <h3>Customers</h3>
-        <p>
+        <h3 id="moduleCustomers">Customers</h3>
+        <p id="descCustomers">
           Register customers, manage their information
           and monitor their water access accounts.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusCustomers">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Public Water Points</h3>
-        <p>
+        <h3 id="modulePoints">Public Water Points</h3>
+        <p id="descPoints">
           Register and manage public water points,
           meters and connected devices.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusPoints">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Water Usage</h3>
-        <p>
+        <h3 id="moduleUsage">Water Usage</h3>
+        <p id="descUsage">
           Record water consumption and monitor
           the number of litres used.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusUsage">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Water Quotas</h3>
-        <p>
+        <h3 id="moduleQuotas">Water Quotas</h3>
+        <p id="descQuotas">
           Set customer water allowances and
           monitor remaining litres.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusQuotas">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Billing</h3>
-        <p>
+        <h3 id="moduleBilling">Billing</h3>
+        <p id="descBilling">
           Calculate water charges and prepare
           customer bills.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusBilling">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Payments</h3>
-        <p>
+        <h3 id="modulePayments">Payments</h3>
+        <p id="descPayments">
           Record payments, monitor outstanding
           balances and issue receipts.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusPayments">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Reports</h3>
-        <p>
+        <h3 id="moduleReports">Reports</h3>
+        <p id="descReports">
           Review customer activity, water usage
           and financial reports.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusReports">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Offline Synchronization</h3>
-        <p>
+        <h3 id="moduleOffline">Offline Synchronization</h3>
+        <p id="descOffline">
           Prepare for offline water readings and
           synchronization when internet returns.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusOffline">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>Users & Roles</h3>
-        <p>
+        <h3 id="moduleUsers">Users & Roles</h3>
+        <p id="descUsers">
           Manage administrators, water agents
           and their access permissions.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusUsers">
+          To be implemented
+        </span>
       </article>
 
       <article class="card">
-        <h3>System Settings</h3>
-        <p>
+        <h3 id="moduleSettings">System Settings</h3>
+        <p id="descSettings">
           Configure water prices, system preferences
           and management settings.
         </p>
-        <span class="module-status">To be implemented</span>
+        <span class="module-status" id="statusSettings">
+          To be implemented
+        </span>
       </article>
 
     </section>
 
   </main>
 
-  <footer>
+  <footer id="footerText">
     &copy; 2026 ABETHIE WATER MANAGEMENT.
     All rights reserved.
   </footer>
@@ -386,10 +432,229 @@
 
     const userEmail = document.getElementById("userEmail");
     const logoutBtn = document.getElementById("logoutBtn");
+    const languageSelect = document.getElementById("languageSelect");
 
+    const translations = {
+
+      en: {
+        loading: "Loading...",
+        logout: "Logout",
+        welcomeTitle: 'Welcome to <span>ABETHIE</span>',
+        welcomeDescription:
+          "Smart Water Management System. Manage customers, public water points, water consumption, quotas, billing and payments from one platform.",
+
+        overviewTitle: "Management Overview",
+        overviewDescription: "Overview of your water management operations.",
+
+        totalCustomers: "Total Customers",
+        waterPoints: "Water Points",
+        totalUsage: "Total Water Usage",
+        totalPayments: "Total Payments",
+
+        modulesTitle: "Management Modules",
+        modulesDescription: "Choose a module to manage your water services.",
+
+        customers: "Customers",
+        descCustomers: "Register customers, manage their information and monitor their water access accounts.",
+
+        points: "Public Water Points",
+        descPoints: "Register and manage public water points, meters and connected devices.",
+
+        usage: "Water Usage",
+        descUsage: "Record water consumption and monitor the number of litres used.",
+
+        quotas: "Water Quotas",
+        descQuotas: "Set customer water allowances and monitor remaining litres.",
+
+        billing: "Billing",
+        descBilling: "Calculate water charges and prepare customer bills.",
+
+        payments: "Payments",
+        descPayments: "Record payments, monitor outstanding balances and issue receipts.",
+
+        reports: "Reports",
+        descReports: "Review customer activity, water usage and financial reports.",
+
+        offline: "Offline Synchronization",
+        descOffline: "Prepare for offline water readings and synchronization when internet returns.",
+
+        users: "Users & Roles",
+        descUsers: "Manage administrators, water agents and their access permissions.",
+
+        settings: "System Settings",
+        descSettings: "Configure water prices, system preferences and management settings.",
+
+        status: "To be implemented",
+
+        footer: "© 2026 ABETHIE WATER MANAGEMENT. All rights reserved.",
+
+        logoutError: "Logout failed. Please try again."
+      },
+
+      rw: {
+        loading: "Birimo gufunguka...",
+        logout: "Sohoka",
+        welcomeTitle: 'Murakaza neza kuri <span>ABETHIE</span>',
+        welcomeDescription:
+          "Sisitemu yo gucunga amazi mu buryo bw'ikoranabuhanga. Gucunga abakiriya, amavomo rusange, ikoreshwa ry'amazi, ingano y'amazi yagenwe, fagitire n'ubwishyu byose ahantu hamwe.",
+
+        overviewTitle: "Incamake y'Imicungire",
+        overviewDescription: "Incamake y'ibikorwa byo gucunga amazi.",
+
+        totalCustomers: "Abakiriya Bose",
+        waterPoints: "Amavomo",
+        totalUsage: "Amazi Yose Yakoreshejwe",
+        totalPayments: "Ubwishyu Bwose",
+
+        modulesTitle: "Ibice by'Imicungire",
+        modulesDescription: "Hitamo igice ushaka gukoresha mu gucunga serivisi z'amazi.",
+
+        customers: "Abakiriya",
+        descCustomers: "Kwandikisha abakiriya, gucunga amakuru yabo no gukurikirana konti zabo z'ikoreshwa ry'amazi.",
+
+        points: "Amavomo Rusange",
+        descPoints: "Kwandikisha no gucunga amavomo rusange, amapima amazi n'ibikoresho biyafasha.",
+
+        usage: "Ikoreshwa ry'Amazi",
+        descUsage: "Kwandika no gukurikirana ingano y'amazi yakoreshejwe muri litiro.",
+
+        quotas: "Ingano y'Amazi Yagenwe",
+        descQuotas: "Kugenera umukiriya ingano y'amazi yemerewe gukoresha no gukurikirana asigaye.",
+
+        billing: "Fagitire",
+        descBilling: "Kubara amafaranga y'amazi yakoreshejwe no gutegura fagitire z'abakiriya.",
+
+        payments: "Ubwishyu",
+        descPayments: "Kwandika ubwishyu, gukurikirana amafaranga atarishyurwa no gutanga inyemezabwishyu.",
+
+        reports: "Raporo",
+        descReports: "Gusuzuma ibikorwa by'abakiriya, ikoreshwa ry'amazi na raporo z'imari.",
+
+        offline: "Guhuza Amakuru Hatari Internet",
+        descOffline: "Gutegura uburyo bwo gupima amazi no kubika amakuru hatari internet, akazoherezwa internet igarutse.",
+
+        users: "Abakoresha na Uburenganzira",
+        descUsers: "Gucunga abayobozi, abakozi bashinzwe amavomo n'uburenganzira bafite muri sisitemu.",
+
+        settings: "Igenamiterere rya Sisitemu",
+        descSettings: "Gushyiraho ibiciro by'amazi, amahitamo n'amabwiriza agenga imikorere ya sisitemu.",
+
+        status: "Biracyategurwa",
+
+        footer: "© 2026 ABETHIE WATER MANAGEMENT. Uburenganzira bwose burabitswe.",
+
+        logoutError: "Ntibyashobotse gusohoka. Ongera ugerageze."
+      }
+
+    };
+
+    function translatePage(language) {
+
+      const t = translations[language] || translations.en;
+
+      document.documentElement.lang = language;
+
+      const elements = {
+        userEmail: "loading",
+        logoutBtn: "logout",
+
+        overviewTitle: "overviewTitle",
+        overviewDescription: "overviewDescription",
+
+        totalCustomers: "totalCustomers",
+        waterPoints: "waterPoints",
+        totalUsage: "totalUsage",
+        totalPayments: "totalPayments",
+
+        modulesTitle: "modulesTitle",
+        modulesDescription: "modulesDescription",
+
+        moduleCustomers: "customers",
+        descCustomers: "descCustomers",
+
+        modulePoints: "points",
+        descPoints: "descPoints",
+
+        moduleUsage: "usage",
+        descUsage: "descUsage",
+
+        moduleQuotas: "quotas",
+        descQuotas: "descQuotas",
+
+        moduleBilling: "billing",
+        descBilling: "descBilling",
+
+        modulePayments: "payments",
+        descPayments: "descPayments",
+
+        moduleReports: "reports",
+        descReports: "descReports",
+
+        moduleOffline: "offline",
+        descOffline: "descOffline",
+
+        moduleUsers: "users",
+        descUsers: "descUsers",
+
+        moduleSettings: "settings",
+        descSettings: "descSettings",
+
+        statusCustomers: "status",
+        statusPoints: "status",
+        statusUsage: "status",
+        statusQuotas: "status",
+        statusBilling: "status",
+        statusPayments: "status",
+        statusReports: "status",
+        statusOffline: "status",
+        statusUsers: "status",
+        statusSettings: "status",
+
+        footerText: "footer"
+      };
+
+      for (const [elementId, translationKey] of Object.entries(elements)) {
+        const element = document.getElementById(elementId);
+
+        if (element) {
+          element.textContent = t[translationKey];
+        }
+      }
+
+      document.getElementById("welcomeTitle").innerHTML = t.welcomeTitle;
+      document.getElementById("welcomeDescription").textContent =
+        t.welcomeDescription;
+
+      languageSelect.value = language;
+
+      localStorage.setItem("abethieLanguage", language);
+    }
+
+    // Restore previously selected language
+    let savedLanguage = "en";
+
+    try {
+      const storedLanguage = localStorage.getItem("abethieLanguage");
+
+      if (storedLanguage === "en" || storedLanguage === "rw") {
+        savedLanguage = storedLanguage;
+      }
+    } catch (error) {
+      console.warn("Language preference unavailable:", error);
+    }
+
+    translatePage(savedLanguage);
+
+    // Change language
+    languageSelect.addEventListener("change", () => {
+      translatePage(languageSelect.value);
+    });
+
+    // Firebase authentication
     onAuthStateChanged(auth, (user) => {
 
       if (user) {
+
         userEmail.textContent = user.email || "Authenticated user";
 
         document.body.style.visibility = "visible";
@@ -397,23 +662,35 @@
         console.log("ABETHIE: User authenticated.");
 
       } else {
+
         window.location.replace("./login.html");
+
       }
 
     });
 
+    // Logout
     logoutBtn.addEventListener("click", async () => {
 
       logoutBtn.disabled = true;
 
       try {
+
         await signOut(auth);
+
         window.location.replace("./login.html");
 
       } catch (error) {
+
         console.error("Logout error:", error);
-        alert("Logout failed. Please try again.");
+
+        const language =
+          localStorage.getItem("abethieLanguage") || "en";
+
+        alert(translations[language].logoutError);
+
         logoutBtn.disabled = false;
+
       }
 
     });
