@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1f3a">
+<title>Customer Dashboard | ABETHIE</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f1f5f9;
+ color:#1e293b;
+}
+
+header{
+ background:#0b1f3a;
+ color:white;
+ padding:20px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+header h2{margin:0}
+
+button{
+ border:0;
+ padding:12px 18px;
+ border-radius:8px;
+ cursor:pointer;
+ font-weight:bold;
+}
+
+.logout{
+ background:#dc3545;
+ color:white;
+}
+
+.container{
+ max-width:1000px;
+ margin:30px auto;
+ padding:15px;
+}
+
+.welcome{
+ margin-bottom:25px;
+}
+
+.welcome h2{color:#0b1f3a}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:18px;
+}
+
+.card{
+ background:white;
+ padding:25px;
+ border-radius:14px;
+ box-shadow:0 4px 15px #0000000b;
+}
+
+.card h3{
+ color:#64748b;
+ font-size:15px;
+}
+
+.value{
+ font-size:30px;
+ font-weight:bold;
+ color:#0b1f3a;
+ margin:15px 0;
+}
+
+.actions{
+ margin-top:25px;
+ background:white;
+ padding:25px;
+ border-radius:14px;
+}
+
+.action{
+ display:block;
+ width:100%;
+ text-align:left;
+ margin:12px 0;
+ background:#f1f5f9;
+ color:#0b1f3a;
+ font-size:15px;
+}
+
+.status{
+ margin-top:20px;
+ padding:15px;
+ background:#e8f5e9;
+ border-radius:8px;
+ color:#247a32;
+}
+
+footer{
+ text-align:center;
+ padding:25px;
+ color:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <h2>💧 ABETHIE WATER</h2>
+ <button class="logout" id="logoutBtn">Logout</button>
+</header>
+
+<main class="container">
+
+ <section class="welcome">
+  <h2 id="customerName">Loading account...</h2>
+  <p id="customerEmail">Please wait...</p>
+ </section>
+
+ <section class="cards">
+
+  <div class="card">
+   <h3>Available Water</h3>
+   <div class="value" id="waterBalance">-- L</div>
+   <small>Verified water credit</small>
+  </div>
+
+  <div class="card">
+   <h3>Water Used</h3>
+   <div class="value" id="waterUsed">-- L</div>
+   <small>Total recorded consumption</small>
+  </div>
+
+  <div class="card">
+   <h3>Account Status</h3>
+   <div class="value" style="font-size:22px" id="accountStatus">
+    Checking...
+   </div>
+   <small>Customer account</small>
+  </div>
+
+ </section>
+
+ <section class="actions">
+  <h2>Customer Services</h2>
+
+  <button class="action" disabled>
+   💧 Buy Water — Coming Soon
+  </button>
+
+  <button class="action" disabled>
+   📱 MTN MoMo — Coming Soon
+  </button>
+
+  <button class="action" disabled>
+   📱 Airtel Money — Coming Soon
+  </button>
+
+  <button class="action" disabled>
+   📋 Purchase History — Coming Soon
+  </button>
+
+  <button class="action" disabled>
+   📊 Water Usage History — Coming Soon
+  </button>
+
+  <div class="status" id="statusMessage">
+   Your customer account is connected.
+  </div>
+ </section>
+
+</main>
+
+<footer>
+ ABETHIE Automated Prepaid Water System
+</footer>
+
+<script type="module">
+
+import {firebaseConfig}
+from "./firebase-config.js";
+
+import {initializeApp}
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
+import {
+ getAuth,
+ onAuthStateChanged,
+ signOut
+}
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ doc,
+ getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const nameElement =
+ document.getElementById("customerName");
+
+const emailElement =
+ document.getElementById("customerEmail");
+
+const statusMessage =
+ document.getElementById("statusMessage");
+
+onAuthStateChanged(auth, async (user)=>{
+
+ if(!user){
+  window.location.replace("./customer-login.html");
+  return;
+ }
+
+ try{
+
+  const profile = await getDoc(
+   doc(db,"users",user.uid)
+  );
+
+  if(!profile.exists() ||
+     profile.data().role !== "customer"){
+
+   await signOut(auth);
+   window.location.replace("./customer-login.html");
+   return;
+  }
+
+  const customer = profile.data();
+
+  nameElement.textContent =
+   "Welcome, " + customer.fullName;
+
+  emailElement.textContent =
+   customer.email || user.email;
+
+  document.getElementById("accountStatus")
+   .textContent = "Active";
+
+  statusMessage.textContent =
+   "Your account is connected successfully.";
+
+ }catch(error){
+
+  console.error(error);
+
+  statusMessage.textContent =
+   "Unable to load your account. Please refresh.";
+
+ }
+
+});
+
+document.getElementById("logoutBtn")
+.addEventListener("click",async()=>{
+
+ try{
+  await signOut(auth);
+  window.location.replace("./customer-login.html");
+ }catch(error){
+  console.error(error);
+  alert("Logout failed. Please try again.");
+ }
+
+});
+
+</script>
+
+</body>
+</html>
