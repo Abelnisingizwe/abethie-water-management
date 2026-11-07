@@ -4,9 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1f3a">
   <title>Admin Login | ABETHIE WATER MANAGEMENT</title>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       min-height: 100vh;
@@ -17,6 +20,7 @@
       background: #0b1f3a;
       color: #fff;
     }
+
     .login-card {
       width: 100%;
       max-width: 410px;
@@ -25,9 +29,22 @@
       background: #fff;
       color: #172b45;
     }
-    h1 { font-size: 24px; text-align: center; }
-    p { text-align: center; color: #526176; }
-    label { display: block; margin: 16px 0 7px; }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    p {
+      text-align: center;
+      color: #526176;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+    }
+
     input {
       width: 100%;
       padding: 12px;
@@ -35,6 +52,7 @@
       border-radius: 7px;
       font-size: 16px;
     }
+
     button {
       width: 100%;
       margin-top: 22px;
@@ -47,35 +65,66 @@
       font-weight: bold;
       cursor: pointer;
     }
-    #message { margin-top: 16px; overflow-wrap: anywhere; }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 16px;
+      overflow-wrap: anywhere;
+    }
   </style>
 </head>
+
 <body>
+
   <main class="login-card">
+
     <h1>ABETHIE WATER MANAGEMENT</h1>
     <p>Administrator Sign In</p>
 
     <form id="loginForm">
+
       <label for="email">Email address</label>
-      <input id="email" type="email" required autocomplete="username">
+      <input
+        id="email"
+        type="email"
+        required
+        autocomplete="username"
+      >
 
       <label for="password">Password</label>
-      <input id="password" type="password" required
-        autocomplete="current-password">
+      <input
+        id="password"
+        type="password"
+        required
+        autocomplete="current-password"
+      >
 
-      <button id="loginButton" type="submit">Sign In</button>
+      <button id="loginButton" type="submit">
+        Sign In
+      </button>
+
       <p id="message" role="status"></p>
+
     </form>
+
   </main>
 
   <script type="module">
+
     import { initializeApp } from
       "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
     import {
       getAuth,
-      signInWithEmailAndPassword
+      signInWithEmailAndPassword,
+      onAuthStateChanged
     } from
       "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
     import { firebaseConfig } from "./firebase-config.js";
 
     const app = initializeApp(firebaseConfig);
@@ -85,28 +134,54 @@
     const message = document.getElementById("message");
     const button = document.getElementById("loginButton");
 
+    // Redirect users who are already authenticated
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.replace("./index.html");
+      }
+    });
+
+    // Login process
     form.addEventListener("submit", async (event) => {
+
       event.preventDefault();
+
       message.textContent = "Signing in...";
       button.disabled = true;
 
       try {
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
         await signInWithEmailAndPassword(
           auth,
-          document.getElementById("email").value.trim(),
-          document.getElementById("password").value
+          email,
+          password
         );
 
         message.textContent =
-          "Login successful. Authentication is working.";
+          "Login successful. Redirecting to Dashboard...";
+
+        // Redirect to Dashboard after successful login
+        window.location.replace("./index.html");
+
       } catch (error) {
-        console.error(error);
+
+        console.error("Login error:", error);
+
         message.textContent =
-  "Error: " + error.code + " — " + error.message;
-      } finally {
+          "Login failed: " + error.code;
+
         button.disabled = false;
+
       }
+
     });
+
+    console.log("ABETHIE Login initialized.");
+
   </script>
+
 </body>
 </html>
