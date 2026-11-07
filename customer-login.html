@@ -149,13 +149,8 @@ form.addEventListener("submit", async (e) => {
       throw new Error("CUSTOMER_PROFILE_NOT_FOUND");
     }
 
-    message.className = "success";
-    message.textContent =
-      "Login successful! Welcome to ABETHIE, " +
-      profile.data().fullName + ".";
-
-    button.textContent = "Signed In";
-
+    window.location.replace("./customer-dashboard.html");
+return;
   } catch (error) {
 
     console.error(error);
