@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1f3a">
+  <title>Customer Registration | ABETHIE</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #f1f5f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      color: #0b1f3a;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin: 15px 0 7px;
+      color: #334155;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    input:focus {
+      outline: 2px solid #2e8b34;
+      border-color: #2e8b34;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      border: none;
+      border-radius: 8px;
+      background: #2e8b34;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .success { color: #16803c; }
+    .error { color: #dc2626; }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    a {
+      color: #2e8b34;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>💧 ABETHIE</h1>
+
+  <p class="subtitle">
+    Automated Prepaid Water System<br>
+    Create Your Customer Account
+  </p>
+
+  <form id="registerForm">
+
+    <label for="fullName">Full Name</label>
+    <input
+      type="text"
+      id="fullName"
+      required
+      minlength="3"
+      placeholder="Enter your full name"
+    >
+
+    <label for="phone">Phone Number</label>
+    <input
+      type="tel"
+      id="phone"
+      required
+      placeholder="+2507XXXXXXXX"
+    >
+
+    <label for="email">Email Address</label>
+    <input
+      type="email"
+      id="email"
+      required
+      placeholder="Enter your email"
+    >
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      required
+      minlength="8"
+      placeholder="At least 8 characters"
+    >
+
+    <label for="confirmPassword">Confirm Password</label>
+    <input
+      type="password"
+      id="confirmPassword"
+      required
+      minlength="8"
+      placeholder="Confirm your password"
+    >
+
+    <button type="submit" id="registerBtn">
+      Create Account
+    </button>
+
+  </form>
+
+  <div id="message"></div>
+
+  <div class="footer">
+    Already have an account?
+    <a href="./customer-login.html">Sign In</a>
+  </div>
+
+</div>
+
+<script type="module">
+
+  import { firebaseConfig }
+    from "./firebase-config.js";
+
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const form = document.getElementById("registerForm");
+  const message = document.getElementById("message");
+  const button = document.getElementById("registerBtn");
+
+  // Prevent accidental replacement of an existing session
+  if (auth.currentUser) {
+    form.style.display = "none";
+    message.className = "error";
+    message.textContent =
+      "An account is already signed in. Sign out before registering a new customer.";
+
+    const logoutButton = document.createElement("button");
+    logoutButton.textContent = "Sign Out";
+    logoutButton.onclick = async () => {
+      await signOut(auth);
+      location.reload();
+    };
+
+    document.querySelector(".container").appendChild(logoutButton);
+  }
+
+  form.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const fullName =
+      document.getElementById("fullName").value.trim();
+
+    const phone =
+      document.getElementById("phone").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    const confirmPassword =
+      document.getElementById("confirmPassword").value;
+
+    if (password !== confirmPassword) {
+      message.className = "error";
+      message.textContent = "Passwords do not match.";
+      return;
+    }
+
+    if (auth.currentUser) {
+      message.className = "error";
+      message.textContent = "Please sign out first.";
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Creating Account...";
+
+    message.textContent = "";
+
+    try {
+
+      // Create Firebase Authentication account
+      const credential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      const user = credential.user;
+
+      // Save customer profile in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+
+        uid: user.uid,
+        fullName: fullName,
+        email: user.email,
+        phone: phone,
+        role: "customer",
+        createdAt: serverTimestamp()
+
+      });
+
+      message.className = "success";
+
+      message.textContent =
+        "Your account has been created successfully! You can now access your customer account.";
+
+      form.reset();
+
+      button.textContent = "Account Created";
+
+    } catch (error) {
+
+      console.error("Registration error:", error);
+
+      message.className = "error";
+
+      const errors = {
+        "auth/email-already-in-use":
+          "This email is already registered.",
+
+        "auth/invalid-email":
+          "Please enter a valid email address.",
+
+        "auth/weak-password":
+          "Password is too weak.",
+
+        "auth/network-request-failed":
+          "Network error. Please try again.",
+
+        "permission-denied":
+          "Database permission denied. Check Firestore Rules."
+      };
+
+      message.textContent =
+        errors[error.code] ||
+        "Registration failed. Please try again.";
+
+      button.disabled = false;
+      button.textContent = "Create Account";
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
