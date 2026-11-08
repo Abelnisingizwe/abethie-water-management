@@ -1,282 +1,657 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b1f3a">
-  <title>ABETHIE WATER MANAGEMENT - Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1f3a">
+<title>Landlord Login | ABETHIE WATER MANAGEMENT</title>
+<style>
+:root {
+  --navy: #0b1f3a;
+  --navy-2: #12305c;
+  --green: #2e8b34;
+  --green-dark: #246c29;
+  --green-soft: #e8f4e9;
+  --white: #ffffff;
+  --page: #f1f5f9;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #cbd5e1;
+  --error: #b91c1c;
+  --error-soft: #fef2f2;
+  --ok: #166534;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+* { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #0b1f3a;
-    }
+html, body { height: 100%; }
 
-    .login-card {
-      width: 100%;
-      max-width: 420px;
-      padding: 35px;
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
-    }
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: var(--page);
+  line-height: 1.5;
+}
 
-    h1 {
-      margin: 0 0 8px;
-      text-align: center;
-      color: #0b1f3a;
-      font-size: 25px;
-    }
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(320px, 5fr) 6fr;
+}
 
-    .subtitle {
-      margin-bottom: 25px;
-      text-align: center;
-      color: #666;
-    }
+/* ---------- Brand panel ---------- */
+.brand {
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: var(--white);
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
 
-    .language-row {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-    }
+.brand-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
 
-    select {
-      padding: 9px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      background: white;
-    }
+.drop {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--green);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
 
-    label {
-      display: block;
-      margin: 15px 0 7px;
-      color: #0b1f3a;
-      font-weight: bold;
-    }
+.brand h2 {
+  margin: 0 0 14px;
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  max-width: 14em;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-    }
+.brand p {
+  margin: 0;
+  color: #c4d2e6;
+  max-width: 28em;
+}
 
-    button {
-      width: 100%;
-      margin-top: 22px;
-      padding: 13px;
-      border: none;
-      border-radius: 6px;
-      background: #d6a84f;
-      color: #0b1f3a;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.features {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+.features li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: #e3ebf6;
+  font-size: 15px;
+}
 
-    #message {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
+.tick {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(46, 139, 52, 0.28);
+  border: 1px solid var(--green);
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
 
-    .footer {
-      margin-top: 25px;
-      text-align: center;
-      color: #888;
-      font-size: 12px;
-    }
-  </style>
+.brand-foot { font-size: 13px; color: #8fa4c2; }
+
+/* ---------- Form panel ---------- */
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 36px;
+  box-shadow: 0 10px 40px rgba(11, 31, 58, 0.12);
+  border-top: 4px solid var(--green);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.role-tag {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-dark);
+  background: var(--green-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+select {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 26px;
+  line-height: 1.25;
+  color: var(--navy);
+}
+
+.subtitle { margin: 0 0 24px; color: var(--muted); font-size: 15px; }
+
+.field { margin-bottom: 18px; }
+
+label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 16px; /* prevents zoom on iOS */
+  color: var(--text);
+  background: var(--white);
+}
+
+input:focus,
+select:focus,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(46, 139, 52, 0.35);
+  outline-offset: 1px;
+  border-color: var(--green);
+}
+
+input[aria-invalid="true"] { border-color: var(--error); }
+
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 78px; }
+
+.toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  width: auto;
+  margin: 0;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.toggle:hover { background: var(--page); }
+
+.field-error {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--error);
+  min-height: 0;
+}
+
+.submit {
+  width: 100%;
+  margin-top: 6px;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--green);
+  color: var(--white);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.15s;
+}
+
+.submit:hover:not(:disabled) { background: var(--green-dark); }
+.submit:disabled { opacity: 0.75; cursor: not-allowed; }
+
+.spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.submit.loading .spinner { display: inline-block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.alert {
+  display: none;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.alert.show { display: block; }
+.alert.error { background: var(--error-soft); color: var(--error); border: 1px solid #fecaca; }
+.alert.success { background: var(--green-soft); color: var(--ok); border: 1px solid #bbdfbe; }
+
+.divider { height: 1px; background: #e2e8f0; margin: 26px 0 18px; }
+
+.alt {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.alt a { color: var(--green-dark); font-weight: 700; text-decoration: none; }
+.alt a:hover { text-decoration: underline; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 860px) {
+  .shell { grid-template-columns: 1fr; }
+  .brand { padding: 24px 22px; gap: 14px; }
+  .brand h2, .brand p, .features, .brand-foot { display: none; }
+  .panel { align-items: flex-start; padding: 22px 16px 32px; }
+  .card { padding: 26px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation-duration: 2s; }
+}
+</style>
 </head>
-
 <body>
+<div class="shell">
 
-  <main class="login-card">
-
-    <div class="language-row">
-      <select id="languageSelect" aria-label="Choose language">
-        <option value="en">English</option>
-        <option value="rw">Kinyarwanda</option>
-      </select>
-    </div>
-
-    <h1>ABETHIE WATER MANAGEMENT</h1>
-    <p class="subtitle" id="subtitle">Administrator Sign In</p>
-
-    <form id="loginForm">
-
-      <label for="email" id="emailLabel">Email address</label>
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        autocomplete="username"
-        required
-      >
-
-      <label for="password" id="passwordLabel">Password</label>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-        autocomplete="current-password"
-        required
-      >
-
-      <button type="submit" id="loginButton">Sign In</button>
-
-      <p id="message" role="status" aria-live="polite"></p>
-    </form>
-
-    <div class="footer">
+  <aside class="brand">
+    <div class="brand-name">
+      <span class="drop" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5c3.2 4.2 6 7.4 6 11a6 6 0 0 1-12 0c0-3.6 2.8-6.8 6-11z"/></svg>
+      </span>
       ABETHIE WATER MANAGEMENT
     </div>
 
+    <div>
+      <h2 id="brandTitle">Every tenant, every meter, one dashboard.</h2>
+      <p id="brandText">Monitor water and electricity use, bills and payments across all your tenants.</p>
+      <ul class="features">
+        <li><span class="tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7fd184" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span id="feat1">A separate water meter and electricity meter for each tenant</span></li>
+        <li><span class="tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7fd184" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span id="feat2">Individual consumption records</span></li>
+        <li><span class="tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7fd184" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><span id="feat3">Individual bills and payment history</span></li>
+      </ul>
+    </div>
+
+    <div class="brand-foot">&copy; ABETHIE WATER MANAGEMENT</div>
+  </aside>
+
+  <main class="panel">
+    <section class="card">
+      <div class="card-top">
+        <span class="role-tag" id="roleTag">Landlord access</span>
+        <select id="languageSelect" aria-label="Choose language">
+          <option value="en">English</option>
+          <option value="rw">Kinyarwanda</option>
+        </select>
+      </div>
+
+      <h1 id="title">Landlord sign in</h1>
+      <p class="subtitle" id="subtitle">Sign in to manage your tenants, meters and bills.</p>
+
+      <div id="message" class="alert" role="alert" aria-live="assertive"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email" id="emailLabel">Email address</label>
+          <input type="email" id="email" name="email" autocomplete="username"
+                 inputmode="email" placeholder="Enter your email" aria-describedby="emailError">
+          <p class="field-error" id="emailError"></p>
+        </div>
+
+        <div class="field">
+          <label for="password" id="passwordLabel">Password</label>
+          <div class="password-wrap">
+            <input type="password" id="password" name="password" autocomplete="current-password"
+                   placeholder="Enter your password" aria-describedby="passwordError">
+            <button type="button" class="toggle" id="togglePassword" aria-pressed="false">Show</button>
+          </div>
+          <p class="field-error" id="passwordError"></p>
+        </div>
+
+        <button type="submit" class="submit" id="loginButton">
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="loginButtonText">Sign in</span>
+        </button>
+      </form>
+
+      <div class="divider"></div>
+      <p class="alt"><span id="customerPrompt">Are you a customer?</span>
+        <a href="./customer-login.html" id="customerLink">Go to customer login</a></p>
+    </section>
   </main>
 
-  <script type="module">
-    import { initializeApp } from
-      "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+</div>
 
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      onAuthStateChanged
-    } from
-      "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-    import { firebaseConfig } from "./firebase-config.js";
+// Existing Firebase project (same import used by customer-login.html)
+import { firebaseConfig } from "./firebase-config.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+/* ------------------------------------------------------------------
+   LANDLORD SETTINGS - confirm these two values match your project
+   ------------------------------------------------------------------ */
+// Where landlords go after a successful, authorized login.
+const DASHBOARD_URL = "./admin-dashboard.html";
 
-    const translations = {
-      en: {
-        subtitle: "Administrator Sign In",
-        emailLabel: "Email address",
-        emailPlaceholder: "Enter your email",
-        passwordLabel: "Password",
-        passwordPlaceholder: "Enter your password",
-        loginButton: "Sign In",
-        signingIn: "Signing in...",
-        success: "Login successful. Redirecting...",
-        error: "Login failed. Check your email and password.",
-        errorCode: "Error: ",
-        required: "Please enter your email and password."
-      },
+// Existing structure: customer-login.html reads users/{uid}.role and
+// requires "customer". Landlords are checked on the same document.
+// Add or remove role names here to match what your landlord account
+// document really contains in Firestore.
+const ALLOWED_ROLES = ["admin", "landlord"];
+/* ------------------------------------------------------------------ */
 
-      rw: {
-        subtitle: "Kwinjira k'Umuyobozi",
-        emailLabel: "Imeyili",
-        emailPlaceholder: "Andika imeyili yawe",
-        passwordLabel: "Ijambo ry'ibanga",
-        passwordPlaceholder: "Andika ijambo ry'ibanga",
-        loginButton: "Injira",
-        signingIn: "Turimo kukwinjiza...",
-        success: "Winjiye neza. Turafungura Dashboard...",
-        error: "Kwinjira byanze. Reba imeyili n'ijambo ry'ibanga.",
-        errorCode: "Ikosa: ",
-        required: "Andika imeyili n'ijambo ry'ibanga."
-      }
-    };
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    const languageSelect = document.getElementById("languageSelect");
-    const loginForm = document.getElementById("loginForm");
-    const loginButton = document.getElementById("loginButton");
-    const message = document.getElementById("message");
+const translations = {
+  en: {
+    roleTag: "Landlord access",
+    title: "Landlord sign in",
+    subtitle: "Sign in to manage your tenants, meters and bills.",
+    brandTitle: "Every tenant, every meter, one dashboard.",
+    brandText: "Monitor water and electricity use, bills and payments across all your tenants.",
+    feat1: "A separate water meter and electricity meter for each tenant",
+    feat2: "Individual consumption records",
+    feat3: "Individual bills and payment history",
+    emailLabel: "Email address",
+    emailPlaceholder: "Enter your email",
+    passwordLabel: "Password",
+    passwordPlaceholder: "Enter your password",
+    show: "Show",
+    hide: "Hide",
+    signIn: "Sign in",
+    signingIn: "Signing in...",
+    customerPrompt: "Are you a customer?",
+    customerLink: "Go to customer login",
+    emailRequired: "Enter your email address.",
+    emailInvalid: "Enter a valid email address, like name@example.com.",
+    passwordRequired: "Enter your password.",
+    passwordShort: "Password must be at least 6 characters.",
+    success: "Signed in. Opening your dashboard...",
+    "auth/invalid-credential": "Incorrect email or password. Check both and try again.",
+    "auth/wrong-password": "Incorrect email or password. Check both and try again.",
+    "auth/user-not-found": "Incorrect email or password. Check both and try again.",
+    "auth/invalid-email": "That email address is not valid.",
+    "auth/user-disabled": "This account has been disabled. Contact the system owner.",
+    "auth/too-many-requests": "Too many attempts. Wait a few minutes, then try again.",
+    "auth/network-request-failed": "Network error. Check your internet connection and try again.",
+    "app/not-authorized": "This account is not a landlord account. Customers should use the customer login.",
+    "app/verify-failed": "Signed in, but your landlord access could not be checked. Try again or contact the system owner.",
+    generic: "Sign in failed. Please try again."
+  },
+  rw: {
+    roleTag: "Kwinjira k'umuyobozi",
+    title: "Kwinjira kwa nyir'inzu",
+    subtitle: "Injira ushinzwe abakode, ibipimo n'inyemezabwishyu.",
+    brandTitle: "Buri mukode, buri kipimo, ahantu hamwe.",
+    brandText: "Kurikirana ikoreshwa ry'amazi n'amashanyarazi, inyemezabwishyu n'ubwishyu bw'abakode bose.",
+    feat1: "Ikipimo cy'amazi n'icy'amashanyarazi kuri buri mukode",
+    feat2: "Amateka y'ikoreshwa kuri buri mukode",
+    feat3: "Inyemezabwishyu n'amateka y'ubwishyu bya buri mukode",
+    emailLabel: "Imeyili",
+    emailPlaceholder: "Andika imeyili yawe",
+    passwordLabel: "Ijambo ry'ibanga",
+    passwordPlaceholder: "Andika ijambo ry'ibanga",
+    show: "Erekana",
+    hide: "Hisha",
+    signIn: "Injira",
+    signingIn: "Turimo kukwinjiza...",
+    customerPrompt: "Uri umukiriya?",
+    customerLink: "Injira nk'umukiriya",
+    emailRequired: "Andika imeyili yawe.",
+    emailInvalid: "Andika imeyili yemewe, nka izina@urugero.com.",
+    passwordRequired: "Andika ijambo ry'ibanga.",
+    passwordShort: "Ijambo ry'ibanga rigomba kuba rifite nibura inyuguti 6.",
+    success: "Winjiye neza. Turafungura dashboard...",
+    "auth/invalid-credential": "Imeyili cyangwa ijambo ry'ibanga si byo. Ongera ugerageze.",
+    "auth/wrong-password": "Imeyili cyangwa ijambo ry'ibanga si byo. Ongera ugerageze.",
+    "auth/user-not-found": "Imeyili cyangwa ijambo ry'ibanga si byo. Ongera ugerageze.",
+    "auth/invalid-email": "Iyi meyili ntabwo yemewe.",
+    "auth/user-disabled": "Iyi konti yarafunzwe. Vugana n'ushinzwe sisitemu.",
+    "auth/too-many-requests": "Wagerageje inshuro nyinshi. Tegereza iminota mike wongere ugerageze.",
+    "auth/network-request-failed": "Ikibazo cy'interineti. Genzura umurongo wongere ugerageze.",
+    "app/not-authorized": "Iyi konti si iya nyir'inzu. Abakiriya bakoreshe urupapuro rw'abakiriya.",
+    "app/verify-failed": "Winjiye, ariko uburenganzira bwawe ntibwashoboye kugenzurwa. Ongera ugerageze.",
+    generic: "Kwinjira byanze. Ongera ugerageze."
+  }
+};
 
-    let currentLanguage = localStorage.getItem("abethieLanguage") || "en";
-    let isSigningIn = false;
+const $ = (id) => document.getElementById(id);
+const languageSelect = $("languageSelect");
+const loginForm = $("loginForm");
+const loginButton = $("loginButton");
+const loginButtonText = $("loginButtonText");
+const emailInput = $("email");
+const passwordInput = $("password");
+const togglePassword = $("togglePassword");
+const message = $("message");
 
-    function translatePage(language) {
-      currentLanguage = language;
-      localStorage.setItem("abethieLanguage", language);
+let currentLanguage = "en";
+try {
+  const saved = localStorage.getItem("abethieLanguage");
+  if (saved && translations[saved]) currentLanguage = saved;
+} catch (e) { /* storage unavailable: keep English */ }
 
-      const t = translations[language];
+let isBusy = false;
+let lastMessage = null;   // { key, type } so the text can be re-translated
+let lastFieldErrors = {}; // { email: key, password: key }
 
-      document.documentElement.lang = language;
-      document.getElementById("subtitle").textContent = t.subtitle;
-      document.getElementById("emailLabel").textContent = t.emailLabel;
-      document.getElementById("email").placeholder = t.emailPlaceholder;
-      document.getElementById("passwordLabel").textContent = t.passwordLabel;
-      document.getElementById("password").placeholder = t.passwordPlaceholder;
+const t = (key) => translations[currentLanguage][key] || translations[currentLanguage].generic;
 
-      if (!isSigningIn) {
-        loginButton.textContent = t.loginButton;
-      }
+function renderMessage() {
+  if (!lastMessage) {
+    message.className = "alert";
+    message.textContent = "";
+    return;
+  }
+  message.className = "alert show " + lastMessage.type;
+  message.textContent = t(lastMessage.key);
+}
 
-      languageSelect.value = language;
+function showMessage(key, type) {
+  lastMessage = { key, type };
+  renderMessage();
+}
+
+function clearMessage() {
+  lastMessage = null;
+  renderMessage();
+}
+
+function renderFieldErrors() {
+  $("emailError").textContent = lastFieldErrors.email ? t(lastFieldErrors.email) : "";
+  $("passwordError").textContent = lastFieldErrors.password ? t(lastFieldErrors.password) : "";
+  emailInput.setAttribute("aria-invalid", lastFieldErrors.email ? "true" : "false");
+  passwordInput.setAttribute("aria-invalid", lastFieldErrors.password ? "true" : "false");
+}
+
+function setLoading(on) {
+  isBusy = on;
+  loginButton.disabled = on;
+  loginButton.classList.toggle("loading", on);
+  loginButtonText.textContent = on ? t("signingIn") : t("signIn");
+}
+
+function updatePasswordToggle() {
+  const visible = passwordInput.type === "text";
+  togglePassword.textContent = visible ? t("hide") : t("show");
+  togglePassword.setAttribute("aria-pressed", String(visible));
+}
+
+function translatePage(language) {
+  currentLanguage = language;
+  try { localStorage.setItem("abethieLanguage", language); } catch (e) {}
+  document.documentElement.lang = language;
+  languageSelect.value = language;
+
+  ["roleTag", "title", "subtitle", "brandTitle", "brandText", "feat1", "feat2", "feat3",
+   "emailLabel", "passwordLabel", "customerPrompt", "customerLink"]
+    .forEach((id) => { $(id).textContent = t(id); });
+
+  emailInput.placeholder = t("emailPlaceholder");
+  passwordInput.placeholder = t("passwordPlaceholder");
+  loginButtonText.textContent = isBusy ? t("signingIn") : t("signIn");
+  updatePasswordToggle();
+  renderMessage();
+  renderFieldErrors();
+}
+
+languageSelect.addEventListener("change", () => translatePage(languageSelect.value));
+
+togglePassword.addEventListener("click", () => {
+  passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+  updatePasswordToggle();
+  passwordInput.focus();
+});
+
+/* ---------- Authorization ---------- */
+// Landlord access is granted only when users/{uid}.role is an allowed role.
+// Customers (role "customer") and users without a profile are refused.
+async function isLandlord(user) {
+  const snap = await getDoc(doc(db, "users", user.uid));
+  if (!snap.exists()) return false;
+  const role = String(snap.data().role || "").trim().toLowerCase();
+  return ALLOWED_ROLES.includes(role);
+}
+
+// If a landlord already has a valid session, skip the form.
+// A signed-in customer is left alone and simply sees this form.
+onAuthStateChanged(auth, async (user) => {
+  if (!user || isBusy) return;
+  try {
+    if (await isLandlord(user)) {
+      window.location.replace(DASHBOARD_URL);
+    }
+  } catch (error) {
+    console.error("Session check failed:", error);
+  }
+});
+
+/* ---------- Validation ---------- */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function validate(email, password) {
+  const errors = {};
+  if (!email) errors.email = "emailRequired";
+  else if (!EMAIL_PATTERN.test(email)) errors.email = "emailInvalid";
+  if (!password) errors.password = "passwordRequired";
+  else if (password.length < 6) errors.password = "passwordShort";
+  return errors;
+}
+
+/* ---------- Sign in ---------- */
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (isBusy) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  clearMessage();
+  lastFieldErrors = validate(email, password);
+  renderFieldErrors();
+  if (Object.keys(lastFieldErrors).length) {
+    (lastFieldErrors.email ? emailInput : passwordInput).focus();
+    return;
+  }
+
+  setLoading(true);
+  let signedInUser = null;
+
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    signedInUser = credential.user;
+
+    let allowed;
+    try {
+      allowed = await isLandlord(signedInUser);
+    } catch (checkError) {
+      console.error("Role check failed:", checkError);
+      throw { code: "app/verify-failed" };
     }
 
-    languageSelect.addEventListener("change", () => {
-      translatePage(languageSelect.value);
-    });
+    if (!allowed) throw { code: "app/not-authorized" };
 
-    translatePage(currentLanguage);
+    showMessage("success", "success");
+    setTimeout(() => window.location.replace(DASHBOARD_URL), 500);
+    // Button stays disabled while the redirect happens.
+  } catch (error) {
+    console.error("Login error:", error.code || error);
+    if (signedInUser) {
+      await signOut(auth).catch(console.error);
+    }
+    passwordInput.value = "";
+    showMessage(translations[currentLanguage][error.code] ? error.code : "generic", "error");
+    setLoading(false);
+  }
+});
 
-    onAuthStateChanged(auth, (user) => {
-      if (user && !isSigningIn) {
-        window.location.replace("./index.html");
-      }
-    });
-
-    loginForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const t = translations[currentLanguage];
-
-      if (!email || !password) {
-        message.textContent = t.required;
-        return;
-      }
-
-      isSigningIn = true;
-      loginButton.disabled = true;
-      loginButton.textContent = t.signingIn;
-      message.textContent = "";
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-
-        message.textContent = translations[currentLanguage].success;
-
-        window.location.replace("./index.html");
-
-      } catch (error) {
-        console.error("Login error:", error);
-
-        isSigningIn = false;
-        loginButton.disabled = false;
-        loginButton.textContent = translations[currentLanguage].loginButton;
-
-        message.textContent =
-          translations[currentLanguage].error +
-          " " +
-          translations[currentLanguage].errorCode +
-          error.code;
-      }
-    });
-  </script>
-
+translatePage(currentLanguage);
+</script>
 </body>
 </html>
